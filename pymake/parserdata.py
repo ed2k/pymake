@@ -894,7 +894,8 @@ class ExportDirective(Statement):
             makefile.exportedvars[v] = True
 
     def dump(self, fd, indent):
-        print("%sExport (single=%s) %s" % (indent, self.single, self.exp), file=fd)
+        #print("%sExport (single=%s) %s" % (indent, self.single, self.exp), file=fd)
+        print("%sExport (single=None) %s" % (indent, self.exp), file=fd)
 
     def to_source(self):
         return ('export %s' % self.exp.to_source()).rstrip()

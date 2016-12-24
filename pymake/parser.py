@@ -53,6 +53,7 @@ class Data(object):
         self.lstart = lstart
         self.lend = lend
         self.loc = loc
+        #print('Data()',lstart,s)
 
     @staticmethod
     def fromstring(s, path):
@@ -415,6 +416,7 @@ def parsedepfile(pathname):
     pathname = os.path.realpath(pathname)
     stmts = parserdata.StatementList()
     for line in continuation_iter(open(pathname).readlines()):
+        print('li',line)
         target, deps = _depfilesplitter.split(line, 1)
         stmts.append(parserdata.Rule(get_expansion(target),
                                      get_expansion(deps), False))
@@ -592,7 +594,7 @@ def parsestring(s, filename):
             targets = e
 
             e, token, offset = parsemakesyntax(d, offset,
-                                               _varsettokens + (':', '|', ';'),
+                                               _varsettokens + (':', ';'),
                                                itermakefilechars)
             if token in (None, ';'):
                 condstack[-1].append(parserdata.Rule(targets, e, doublecolon))
@@ -609,17 +611,19 @@ def parsestring(s, filename):
 
                 value = flattenmakesyntax(d, offset).lstrip()
                 condstack[-1].append(parserdata.SetVariable(e, value=value, valueloc=d.getloc(offset), token=token, targetexp=targets))
-            elif token == '|':
-                raise errors.SyntaxError('order-only prerequisites not implemented', d.getloc(offset))
             else:
                 assert token == ':'
+                pattern = e
+                deps, token, offset = parsemakesyntax(d, offset, ('|',';'), itermakefilechars)
+		print e,'::::',deps,token, offset
+                condstack[-1].append(parserdata.StaticPatternRule(targets, pattern, deps, doublecolon))
+                if token == '|':
+                  print('order-only prerequisites not implemented', d.getloc(offset))
+                  deps, token, offset = parsemakesyntax(d, offset, (';',), itermakefilechars)
+		  print e,'|||',deps,token, offset
+                  condstack[-1].append(parserdata.StaticPatternRule(targets, pattern, deps, doublecolon))
                 # static pattern rule
 
-                pattern = e
-
-                deps, token, offset = parsemakesyntax(d, offset, (';',), itermakefilechars)
-
-                condstack[-1].append(parserdata.StaticPatternRule(targets, pattern, deps, doublecolon))
                 currule = True
 
                 if token == ';':

@@ -1774,6 +1774,10 @@ class Makefile(object):
 
         self.error = False
 
+    def dumpStmts(self, fspath, stmts):
+        print(fspath)
+        print stmts
+        
     def include(self, path, required=True, weak=False, loc=None):
         """
         Include the makefile at `path`.
@@ -1790,7 +1794,9 @@ class Makefile(object):
                     stmts = parser.parsedepfile(fspath)
                 else:
                     stmts = parser.parsefile(fspath)
+                self.dumpStmts(fspath, str(stmts))
                 self.variables.append('MAKEFILE_LIST', Variables.SOURCE_AUTOMATIC, path, None, self)
+                #for v in self.variables: print(v)
                 stmts.execute(self, weak=weak)
                 self.gettarget(path).explicit = True
 

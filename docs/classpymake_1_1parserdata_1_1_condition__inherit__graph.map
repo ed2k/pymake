@@ -1,0 +1,5 @@
+<map id="pymake.parserdata.Condition" name="pymake.parserdata.Condition">
+<area shape="rect" id="node3" href="$classpymake_1_1parserdata_1_1_else_condition.html" title="pymake.parserdata.ElseCondition" alt="" coords="354,5,575,31"/>
+<area shape="rect" id="node4" href="$classpymake_1_1parserdata_1_1_eq_condition.html" title="pymake.parserdata.EqCondition" alt="" coords="359,55,570,80"/>
+<area shape="rect" id="node5" href="$classpymake_1_1parserdata_1_1_ifdef_condition.html" title="pymake.parserdata.IfdefCondition" alt="" coords="354,104,575,129"/>
+</map>

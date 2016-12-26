@@ -1,0 +1,5 @@
+<map id="pymake.errors.MakeError" name="pymake.errors.MakeError">
+<area shape="rect" id="node3" href="$classpymake_1_1errors_1_1_data_error.html" title="pymake.errors.DataError" alt="" coords="8,152,176,177"/>
+<area shape="rect" id="node5" href="$classpymake_1_1errors_1_1_syntax_error.html" title="pymake.errors.SyntaxError" alt="" coords="200,152,381,177"/>
+<area shape="rect" id="node4" href="$classpymake_1_1errors_1_1_resolution_error.html" title="pymake.errors.Resolution\lError" alt="" coords="5,225,179,264"/>
+</map>

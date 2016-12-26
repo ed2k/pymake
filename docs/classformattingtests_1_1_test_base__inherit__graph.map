@@ -1,0 +1,13 @@
+<map id="formattingtests.TestBase" name="formattingtests.TestBase">
+<area shape="rect" id="node3" href="$classformattingtests_1_1_condition_blocks_test.html" title="formattingtests.Condition\lBlocksTest" alt="" coords="378,5,547,44"/>
+<area shape="rect" id="node4" href="$classformattingtests_1_1_expansion_test.html" title="formattingtests.ExpansionTest" alt="" coords="363,68,562,93"/>
+<area shape="rect" id="node5" href="$classformattingtests_1_1_ifdef_test.html" title="formattingtests.IfdefTest" alt="" coords="381,117,544,143"/>
+<area shape="rect" id="node6" href="$classformattingtests_1_1_ifeq_test.html" title="formattingtests.IfeqTest" alt="" coords="383,167,542,192"/>
+<area shape="rect" id="node7" href="$classformattingtests_1_1_include_test.html" title="formattingtests.IncludeTest" alt="" coords="373,216,553,241"/>
+<area shape="rect" id="node8" href="$classformattingtests_1_1_makefile_corupus_test.html" title="formattingtests.Makefile\lCorupusTest" alt="" coords="382,265,544,304"/>
+<area shape="rect" id="node9" href="$classformattingtests_1_1_set_variable_test.html" title="formattingtests.SetVariableTest" alt="" coords="360,328,565,353"/>
+<area shape="rect" id="node10" href="$classformattingtests_1_1_standard_function_test.html" title="formattingtests.Standard\lFunctionTest" alt="" coords="379,377,546,416"/>
+<area shape="rect" id="node11" href="$classformattingtests_1_1_string_expansion_test.html" title="formattingtests.StringExpansionTest" alt="" coords="346,440,580,465"/>
+<area shape="rect" id="node12" href="$classformattingtests_1_1_substitution_ref_test.html" title="formattingtests.Substitution\lRefTest" alt="" coords="372,489,554,528"/>
+<area shape="rect" id="node13" href="$classformattingtests_1_1_variable_ref_test.html" title="formattingtests.Variable\lRefTest" alt="" coords="382,552,543,591"/>
+</map>

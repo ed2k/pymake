@@ -269,7 +269,7 @@ def main(args, env, cwd, cb):
 
         ostmts, targets, overrides = parserdata.parsecommandlineargs(arguments)
         m = _MakeContext(makeflags, makelevel, workdir, context, env, targets, options, ostmts, overrides, cb)
-	return m
+        return m
     except errors.MakeError as e:
         print(e)
         if options.printdir:

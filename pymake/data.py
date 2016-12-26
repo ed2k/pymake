@@ -1087,7 +1087,7 @@ class Target(object):
         "The number of rules with commands"
         return reduce(lambda i, rule: i + (len(rule.commands) > 0), self.rules, 0)
 
-    def resolvedeps(self, makefile, targetstack, rulestack, recursive):
+    def resolvedeps(self, makefile, targetstack, rulestack, recursive, required=True):
         """
         Resolve the actual path of this target, using vpath if necessary.
 
@@ -1125,7 +1125,7 @@ class Target(object):
                 # TODO: provide locations
                 raise errors.DataError("Target '%s' has multiple rules with commands." % self.target)
 
-        if ruleswithcommands == 0:
+        if ruleswithcommands == 0 and required:
             self.resolveimplicitrule(makefile, targetstack, rulestack)
 
         # If a target is mentioned, but doesn't exist, has no commands and no
@@ -1238,7 +1238,7 @@ class Target(object):
             makefile.context.defer(cb, error=self.error, didanything=self.didanything)
         del self._callbacks 
 
-    def make(self, makefile, targetstack, cb, avoidremakeloop=False, printerror=True):
+    def make(self, makefile, targetstack, cb, required=True, avoidremakeloop=False, printerror=True):
         """
         If we are out of date, asynchronously make ourself. This is a multi-stage process, mostly handled
         by the helper objects RemakeTargetSerially, RemakeTargetParallel,
@@ -1279,7 +1279,7 @@ class Target(object):
         indent = getindent(targetstack)
 
         try:
-            self.resolvedeps(makefile, targetstack, [], False)
+            self.resolvedeps(makefile, targetstack, [], False, required=required)
         except errors.MakeError as e:
             if printerror:
                 print(e)
@@ -1597,12 +1597,16 @@ class _RemakeContext(object):
 
         if len(self.toremake):
             target, self.required = self.toremake.pop(0)
-            target.make(self.makefile, [], avoidremakeloop=True, cb=self.remakecb, printerror=False)
+            target.make(self.makefile, [], required=self.required, avoidremakeloop=True, cb=self.remakecb, printerror=False)
         else:
             for t, required in self.included:
                 if t.wasremade:
-                    _log.info("Included file %s was remade, restarting make", t.target)
-                    self.cb(remade=True)
+                    if os.path.isfile(t.target):
+                      _log.info("Included file %s was remade, restarting make", t.target)
+                      self.cb(remade=True)
+                    else:
+                      _log.info("TODO, handle Included file %s was remade, not exist", t.target)                        
+                      self.cb(remade=False, error=errors.DataError("TODO handle missing include file %s" % t.target))
                     return
                 elif required and t.mtime is None:
                     self.cb(remade=False, error=errors.DataError("No rule to remake missing include file %s" % t.target))
@@ -1775,13 +1779,14 @@ class Makefile(object):
         self.error = False
 
     def dumpStmts(self, fspath, stmts):
-        print(fspath)
-        print stmts
+        print('path: ',fspath)
+        print(stmts)
         
     def include(self, path, required=True, weak=False, loc=None):
         """
         Include the makefile at `path`.
         """
+        self.makename = path
         if self._globcheck.search(path):
             paths = globrelative.glob(self.workdir, path)
         else:
@@ -1794,9 +1799,8 @@ class Makefile(object):
                     stmts = parser.parsedepfile(fspath)
                 else:
                     stmts = parser.parsefile(fspath)
-                self.dumpStmts(fspath, str(stmts))
+                #self.dumpStmts(fspath, str(stmts))
                 self.variables.append('MAKEFILE_LIST', Variables.SOURCE_AUTOMATIC, path, None, self)
-                #for v in self.variables: print(v)
                 stmts.execute(self, weak=weak)
                 self.gettarget(path).explicit = True
 
